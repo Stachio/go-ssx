@@ -3,7 +3,8 @@ package ssx
 import (
 	"log"
 	"math/rand"
-	"printssx"
+
+	"github.com/Stachio/go-printssx"
 )
 
 // Printer - Generic printer object provided by stachio/printerssx
