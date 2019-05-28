@@ -23,12 +23,14 @@ const BinarySuccess BinaryResult = 1
 const BinaryContinue BinaryResult = 2
 
 // BinarySearchRecursion - Walks through n-indices randomly, uniquely
-func BinarySearchRecursion(startIndex, endIndex, level uint64, op func(uint64) BinaryResult) (out uint64, result BinaryResult) {
+func BinarySearchRecursion(startIndex, endIndex, level uint64, op func(uint64) (BinaryResult, error)) (out uint64, result BinaryResult, err error) {
 	// Randomly found a node
 	Printer.Printf(printssx.Loud, "Binarily checking %d/%d/%d", startIndex, endIndex, level)
 	if startIndex == endIndex {
 		Printer.Println(printssx.Moderate, "Operating on index", startIndex)
-		return startIndex, op(startIndex)
+		out = startIndex
+		result, err = op(startIndex)
+		return
 	}
 
 	midIndex := (startIndex + endIndex) / 2
@@ -49,9 +51,9 @@ func BinarySearchRecursion(startIndex, endIndex, level uint64, op func(uint64) B
 		setB = &highSet
 	}
 
-	out, result = BinarySearchRecursion(setA[0], setA[1], level+1, op)
+	out, result, err = BinarySearchRecursion(setA[0], setA[1], level+1, op)
 	if result == BinaryContinue {
-		out, result = BinarySearchRecursion(setB[0], setB[1], level+1, op)
+		out, result, err = BinarySearchRecursion(setB[0], setB[1], level+1, op)
 	}
 	return
 }
